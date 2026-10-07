@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Poise 포이즈 · 선수를 위한 멘탈 트레이닝</title>
+<meta name="description" content="연습 때는 되는데 시합만 나가면 흔들리나요? Poise는 호흡, 루틴, 심상, 셀프토크, 리셋을 하루 5분씩 연습하는 선수용 멘탈 트레이닝입니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Poise 포이즈">
+<meta property="og:title" content="Poise 포이즈 · 멘탈도 훈련입니다">
+<meta property="og:description" content="선수를 위한 멘탈 트레이닝. 하루 5분, 호흡부터.">
+<meta property="og:image" content="https://h00nster15.github.io/poise-site/og.png">
+<meta property="og:url" content="https://h00nster15.github.io/poise-site/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#3D6B5C">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm column; a breathing circle as the hero's live demo; mountain ridge as the only ornament.
+   Colours = the Poise app's Forest Calm palette (poise/src/constants/theme.ts). */
+:root {
+  --bg: #F6F4EE;
+  --surface: #FFFFFF;
+  --fg: #1E2B27;
+  --muted: #56655F;
+  --line: #E2E2DA;
+  --accent: #3D6B5C;
+  --on-accent: #FFFFFF;
+  --breath: #A8CBB8;
+  --glow: #D6E7DC;
+  --peach: #F6DCC8;
+  --ridge-far: #DDE8E1;
+  --ridge-near: #C7DACE;
+  --danger: #B4383C;
+  --display: "Nanum Myeongjo", "Noto Serif KR", "AppleMyungjo", serif;
+  --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121A18; --surface: #1B2522; --fg: #ECF1EE; --muted: #A3B3AC; --line: #2A3733;
+    --accent: #8FC2AC; --on-accent: #10201A; --breath: #4E7D6B; --glow: #22332E; --peach: #4A3A30;
+    --ridge-far: #1C2926; --ridge-near: #23342F; --danger: #F08A8D; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.75; word-break: keep-all; -webkit-text-size-adjust: 100%; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; text-wrap: balance; margin: 0; line-height: 1.3; }
+p { margin: 0; }
+a { color: inherit; }
+.eyebrow { font-size: 13px; letter-spacing: .12em; color: var(--accent); font-weight: 600; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; font: 600 15px var(--body); text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-ghost { background: transparent; color: var(--accent); }
+.btn[disabled] { opacity: .6; cursor: default; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--breath); outline-offset: 2px; }
+
+/* header */
+.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; gap: 16px; }
+.logo { display: flex; align-items: baseline; gap: 8px; text-decoration: none; }
+.logo b { font-family: var(--display); font-size: 24px; }
+.logo span { font-size: 13px; color: var(--muted); }
+.top nav { display: flex; gap: 20px; font-size: 14px; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--fg); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding-block: 40px 24px; }
+.hero > * { min-width: 0; }
+.hero h1 { font-size: clamp(38px, 6vw, 64px); margin-top: 12px; }
+.hero .lead { font-size: 18px; color: var(--muted); margin-top: 20px; max-width: 30em; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+.breather { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 28px 24px 24px; text-align: center; }
+.breather .label { font-size: 13px; color: var(--muted); }
+.stage { position: relative; width: 100%; max-width: 280px; aspect-ratio: 1; margin: 16px auto; display: grid; place-items: center; }
+.ring { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed var(--line); }
+.circle { width: 40%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, var(--glow), var(--breath)); transition: width var(--dur, 1s) ease-in-out; }
+.cue { position: absolute; font-family: var(--display); font-weight: 700; font-size: 22px; }
+.count { font-size: 13px; color: var(--muted); min-height: 1.5em; font-variant-numeric: tabular-nums; }
+.breather button { margin-top: 12px; }
+
+.ridge { display: block; width: 100%; height: 90px; margin-top: 24px; }
+
+/* sections */
+section { padding-block: 72px; }
+section + section { border-top: 1px solid var(--line); }
+.sec-head { max-width: 640px; margin-bottom: 40px; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 40px); margin-top: 10px; }
+.sec-head p { color: var(--muted); margin-top: 14px; font-size: 17px; }
+
+.quote { font-family: var(--display); font-size: clamp(24px, 3.6vw, 34px); font-weight: 700; line-height: 1.5; max-width: 22em; }
+.quote small { display: block; font-family: var(--body); font-size: 15px; font-weight: 400; color: var(--muted); margin-top: 16px; }
+
+.skills { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.skill { min-width: 0; padding: 20px 16px; border-top: 2px solid var(--accent); }
+.skill h3 { font-size: 22px; }
+.skill .en { font-size: 12px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+.skill p { font-size: 14.5px; color: var(--muted); margin-top: 10px; line-height: 1.65; }
+
+.track { display: grid; grid-template-columns: 7fr 4fr 6fr; gap: 6px; }
+.seg { min-width: 0; background: var(--glow); border-radius: 12px; padding: 16px; }
+.seg:nth-child(2) { background: var(--peach); }
+.seg .t { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.seg b { display: block; font-size: 17px; margin-top: 4px; }
+.seg p { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
+.scale { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+
+.who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; }
+.card .say { font-family: var(--display); font-weight: 700; font-size: 18px; line-height: 1.5; }
+.card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
+.card .tag { font-size: 13px; font-weight: 600; color: var(--accent); }
+
+.workshop { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.workshop > * { min-width: 0; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; margin: 0; font-size: 15px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+
+/* sign-up */
+.signup { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 32px 28px; }
+.signup h2 { font-size: clamp(26px, 3.6vw, 34px); }
+.signup > p { color: var(--muted); margin-top: 10px; }
+form { display: grid; gap: 18px; margin-top: 24px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row2 > * { min-width: 0; }
+label.f { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+label.f small { color: var(--muted); font-weight: 400; }
+input[type=text], input[type=tel], input[type=email], select, textarea {
+  width: 100%; font: 16px var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+}
+textarea { min-height: 84px; resize: vertical; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
+legend { font-size: 14px; font-weight: 500; padding: 0; margin-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span { display: inline-block; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; background: var(--bg); }
+.chip input:checked + span { border-color: var(--accent); background: var(--glow); font-weight: 600; }
+.chip input:focus-visible + span { outline: 3px solid var(--breath); outline-offset: 2px; }
+.consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+.consent input { width: 18px; height: 18px; margin-top: 4px; accent-color: var(--accent); flex: none; }
+.consent a { color: var(--accent); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.msg { font-size: 15px; min-height: 1.5em; }
+.msg.err { color: var(--danger); }
+.done { text-align: center; padding-block: 24px; }
+.done h3 { font-size: 26px; }
+.done p { color: var(--muted); margin-top: 10px; }
+
+.privacy { font-size: 14px; color: var(--muted); }
+.privacy h2 { font-size: 22px; color: var(--fg); }
+.privacy table { border-collapse: collapse; margin-top: 16px; width: 100%; }
+.privacy th, .privacy td { text-align: left; border-top: 1px solid var(--line); padding: 10px 12px 10px 0; vertical-align: top; }
+.privacy th { color: var(--fg); font-weight: 500; white-space: nowrap; }
+.privacy p { margin-top: 12px; }
+
+footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer p { max-width: 46em; }
+
+@media (max-width: 860px) {
+  .hero, .workshop { grid-template-columns: 1fr; gap: 32px; }
+  .skills { grid-template-columns: repeat(2, 1fr); }
+  .who { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .top nav a.hide-sm { display: none; }
+  .track, .row2 { grid-template-columns: 1fr; }
+  .scale { display: none; }
+  .skills { grid-template-columns: 1fr; }
+  section { padding-block: 56px; }
+  .signup { padding: 24px 18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .circle { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#top"><b>Poise</b><span>포이즈</span></a>
+    <nav>
+      <a class="hide-sm" href="#skills">기술</a>
+      <a class="hide-sm" href="#workshop">워크숍</a>
+      <a href="#signup">소식 받기</a>
+      <a href="https://h00nster15.github.io/poise-web/" target="_blank" rel="noopener">앱 열기 →</a>
+    </nav>
+  </header>
+
+  <main>
+  <div class="hero" id="top">
+    <div>
+      <div class="eyebrow">선수를 위한 멘탈 트레이닝</div>
+      <h1>멘탈도<br>훈련입니다.</h1>
+      <p class="lead">연습 때는 되는데 시합만 나가면 흔들리나요? Poise는 호흡, 루틴, 심상, 셀프토크, 리셋을 하루 5분씩 연습하게 도와주는 멘탈 트레이닝입니다.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://h00nster15.github.io/poise-web/" target="_blank" rel="noopener">무료로 시작하기</a>
+        <a class="btn btn-ghost" href="#signup">워크숍 소식 받기</a>
+      </div>
+    </div>
+
+    <div class="breather" aria-live="polite">
+      <div class="label">지금 한 번 해보세요 · 생리적 한숨</div>
+      <div class="stage">
+        <div class="ring"></div>
+        <div class="circle" id="circle"></div>
+        <div class="cue" id="cue">준비</div>
+      </div>
+      <div class="count" id="count">코로 두 번 들이쉬고, 입으로 길게 내쉬어요</div>
+      <button class="btn btn-primary" id="go" type="button">한 번 따라 하기</button>
+    </div>
+  </div>
+
+  <svg class="ridge" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 90 L0 55 L120 30 L230 50 L360 12 L480 44 L600 22 L720 48 L840 18 L1000 46 L1000 90 Z" fill="var(--ridge-far)"/>
+    <path d="M0 90 L0 70 L150 52 L300 72 L450 46 L620 70 L780 50 L920 68 L1000 58 L1000 90 Z" fill="var(--ridge-near)"/>
+  </svg>
+
+  <section>
+    <p class="quote">"기술이 부족한 게 아니에요. 압박 속에서 그 기술을 꺼내는 연습이 아직인 거예요."<small>체력처럼 멘탈도 반복하면 늘어요. Poise는 경기장에서 바로 쓸 수 있는 것만 담았습니다.</small></p>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <div class="eyebrow">다섯 가지 기술</div>
+      <h2>하루 5분, 하나씩 연습해요</h2>
+      <p>스쿼시 코트에서 시작해 다른 종목 선수도 그대로 쓸 수 있게 만들었어요.</p>
+    </div>
+    <div class="skills">
+      <div class="skill"><span class="en">Breathe</span><h3>호흡</h3><p>커졌다 작아지는 원을 따라 숨 쉬기. 진정과 활성화 패턴, 연습 전후 긴장도 기록.</p></div>
+      <div class="skill"><span class="en">Routines</span><h3>루틴</h3><p>서브 전, 리턴 전, 실수 후. 나만의 말로 쓰고 시간에 맞춰 연습.</p></div>
+      <div class="skill"><span class="en">Imagery</span><h3>심상</h3><p>첫 세 포인트, 게임볼 상황을 미리 떠올리는 안내 스크립트.</p></div>
+      <div class="skill"><span class="en">Self-talk</span><h3>셀프토크</h3><p>큐 단어와 바꿔 말하기. "또 놓쳤어" 대신 "다음 공, 깊게".</p></div>
+      <div class="skill"><span class="en">Reset</span><h3>리셋</h3><p>포인트 사이 17초. 한숨 한 번, 큐 단어 하나, 계획 하나.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">포인트 사이 17초</div>
+      <h2>실수한 다음, 이것만 하세요</h2>
+    </div>
+    <div class="track">
+      <div class="seg"><div class="t">0–7초</div><b>한숨 한 번</b><p>코로 두 번 들이쉬고 입으로 길게 내쉬기.</p></div>
+      <div class="seg"><div class="t">7–11초</div><b>큐 단어</b><p>"공만 보자" 같은 나만의 한 마디.</p></div>
+      <div class="seg"><div class="t">11–17초</div><b>계획 하나</b><p>"깊게, 백코너로." 다음 포인트만 생각하기.</p></div>
+    </div>
+    <div class="scale"><span>0초</span><span>17초 · 서브 준비</span></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">이런 분들을 위해</div>
+      <h2>선수, 부모, 코치가 함께 써요</h2>
+    </div>
+    <div class="who">
+      <div class="card"><span class="tag">주니어 선수</span><p class="say">"시합만 나가면 첫 게임을 내줘요."</p><ul><li>경기 전날 저녁 알림</li><li>게임 사이에 여는 경기 카드</li><li>내 기록과 성장 그래프</li></ul></div>
+      <div class="card"><span class="tag">학부모</span><p class="say">"아이가 지면 뭐라고 해줘야 할지 모르겠어요."</p><ul><li>아이의 연습 요약을 카톡으로</li><li>학부모 가이드와 워크숍</li><li>부담 없는 무료 앱</li></ul></div>
+      <div class="card"><span class="tag">코치·클럽</span><p class="say">"기술은 가르치는데 멘탈은 어떻게 가르치죠?"</p><ul><li>폰 하나로 여러 학생 관리</li><li>학생별 연습 기록 보기</li><li>클럽 방문 워크숍</li></ul></div>
+    </div>
+  </section>
+
+  <section id="workshop">
+    <div class="workshop">
+      <div>
+        <div class="sec-head" style="margin-bottom:24px">
+          <div class="eyebrow">워크숍</div>
+          <h2>주니어 멘탈 워크숍</h2>
+          <p>선수와 학부모가 함께 듣는 소그룹 과정이에요. 앱 설치부터 호흡·리셋 실습까지 현장에서 함께 합니다.</p>
+        </div>
+        <dl class="facts">
+          <dt>대상</dt><dd>초·중·고 선수와 학부모</dd>
+          <dt>시간</dt><dd>2시간</dd>
+          <dt>인원</dt><dd>8–12명</dd>
+          <dt>장소</dt><dd>웰페리온 스포츠센터 (한남동)</dd>
+          <dt>일정</dt><dd>첫 회차 일정은 소식 받기 신청자에게 먼저 알려드려요</dd>
+        </dl>
+      </div>
+
+      <div class="signup" id="signup">
+        <div id="form-wrap">
+          <h2>소식 받기</h2>
+          <p>워크숍 일정과 Poise 새 소식을 가장 먼저 보내드려요.</p>
+          <form id="form" novalidate>
+            <div class="row2">
+              <label class="f">이름<input type="text" id="name" name="name" autocomplete="name" maxlength="60" required></label>
+              <label class="f">구분
+                <select id="role" name="role">
+                  <option value="학부모">학부모</option>
+                  <option value="선수">선수 (14세 이상)</option>
+                  <option value="코치">코치·클럽</option>
+                  <option value="기타">기타</option>
+                </select>
+              </label>
+            </div>
+            <div class="row2">
+              <label class="f">휴대폰 <small>또는 이메일</small><input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="010-0000-0000" maxlength="20"></label>
+              <label class="f">이메일 <small>선택</small><input type="email" id="email" name="email" autocomplete="email" maxlength="120"></label>
+            </div>
+            <label class="f">종목
+              <select id="sport" name="sport">
+                <option>스쿼시</option><option>테니스</option><option>배드민턴</option><option>골프</option><option>기타</option>
+              </select>
+            </label>
+            <fieldset>
+              <legend>관심 있는 것 <small style="color:var(--muted);font-weight:400">여러 개 선택 가능</small></legend>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="interests" value="워크숍" checked><span>워크숍</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="앱"><span>앱</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="대회 준비 프로그램"><span>대회 준비 프로그램</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="클럽 도입"><span>클럽 도입</span></label>
+              </div>
+            </fieldset>
+            <label class="f">하고 싶은 말 <small>선택</small><textarea id="note" name="note" maxlength="500" placeholder="예: 중2, 다음 달 전국대회 준비 중이에요"></textarea></label>
+            <div class="hp" aria-hidden="true"><label>웹사이트<input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <label class="consent"><input type="checkbox" id="consent" name="consent"><span>개인정보 수집·이용에 동의합니다. <a href="#privacy">자세히 보기</a></span></label>
+            <p class="msg" id="msg" role="status"></p>
+            <button class="btn btn-primary" id="submit" type="submit">신청하기</button>
+          </form>
+        </div>
+        <div class="done" id="done" hidden>
+          <h3>신청되었어요</h3>
+          <p id="done-msg">워크숍 일정과 Poise 소식을 가장 먼저 알려드릴게요.</p>
+          <p style="margin-top:20px"><a class="btn btn-ghost" href="https://h00nster15.github.io/poise-web/" target="_blank" rel="noopener">기다리는 동안 앱 열어보기</a></p>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:16px">14세 미만 선수는 보호자가 신청해 주세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy" id="privacy">
+    <h2>개인정보 수집·이용 안내</h2>
+    <table>
+      <tr><th>수집 항목</th><td>이름, 구분, 종목, 휴대폰 번호 또는 이메일, 관심 분야, 남기신 메모</td></tr>
+      <tr><th>이용 목적</th><td>워크숍·프로그램 일정 안내와 Poise 소식 전달</td></tr>
+      <tr><th>보유 기간</th><td>수신 거부 또는 삭제 요청 시까지, 최대 2년</td></tr>
+      <tr><th>거부할 권리</th><td>동의하지 않으셔도 되며, 이 경우 소식을 받으실 수 없어요. 앱 이용에는 영향이 없습니다.</td></tr>
+    </table>
+    <p>Poise 앱의 연습 기록은 이 사이트로 전송되지 않고 사용하시는 기기 안에만 저장돼요. 삭제를 원하시면 받으신 안내 메시지에 회신해 주세요.</p>
+  </section>
+  </main>
+
+  <footer>
+    <span>Poise by Wellperion</span>
+    <p>Poise는 경기력 향상을 위한 멘탈 트레이닝이며 의료·상담 서비스가 아닙니다. 마음이 많이 힘들다면 정신건강 상담전화 1577-0199 또는 자살예방 상담전화 109로 연락하세요.</p>
+  </footer>
+</div>
+
+<script>
+// Breathing demo: physiological sigh x3 (inhale, top-up inhale, long exhale).
+(function () {
+  var circle = document.getElementById('circle');
+  var cue = document.getElementById('cue');
+  var count = document.getElementById('count');
+  var go = document.getElementById('go');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var steps = [
+    { cue: '들이쉬고', size: 78, sec: 2.5 },
+    { cue: '한 번 더', size: 92, sec: 1 },
+    { cue: '길게 내쉬기', size: 40, sec: 6 }
+  ];
+  var timers = [];
+  function run(round) {
+    var t = 0;
+    steps.forEach(function (s) {
+      timers.push(setTimeout(function () {
+        circle.style.setProperty('--dur', (reduce ? 0 : s.sec) + 's');
+        circle.style.width = s.size + '%';
+        cue.textContent = s.cue;
+        count.textContent = round + ' / 3회 · ' + s.sec + '초';
+      }, t * 1000));
+      t += s.sec;
+    });
+    timers.push(setTimeout(function () {
+      if (round < 3) run(round + 1);
+      else { cue.textContent = '좋아요'; count.textContent = '방금 한 것이 포인트 사이 리셋의 첫 단계예요'; go.disabled = false; go.textContent = '다시 하기'; }
+    }, t * 1000));
+  }
+  go.addEventListener('click', function () { timers.forEach(clearTimeout); timers = []; go.disabled = true; run(1); });
+})();
+
+// Sign-up → Wellperion Apps Script (apps-script/Poise.gs in wellperion-squash), row in "Poise 대기자".
+(function () {
+  var EXEC_URL = 'https://script.google.com/macros/s/AKfycbwpLozjXaVuue6WA-eCsHpVjbZqI3Aen1jV2I3ZU7zCZPi3RqMDR9U2BZ8Z6lEXm2O2/exec';
+  var form = document.getElementById('form');
+  var msg = document.getElementById('msg');
+  var btn = document.getElementById('submit');
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function fail(text, focusId) {
+    msg.textContent = text; msg.className = 'msg err';
+    if (focusId) document.getElementById(focusId).focus();
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var phone = val('phone').replace(/[^\d]/g, ''), email = val('email');
+    if (!val('name')) return fail('이름을 입력해 주세요.', 'name');
+    if (!phone && !email) return fail('휴대폰 번호나 이메일 중 하나를 입력해 주세요.', 'phone');
+    if (phone && !/^01\d{8,9}$/.test(phone)) return fail('휴대폰 번호를 확인해 주세요. 예: 010-1234-5678', 'phone');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('이메일 형식을 확인해 주세요.', 'email');
+    if (!document.getElementById('consent').checked) return fail('개인정보 수집·이용에 동의해 주세요.', 'consent');
+    var interests = Array.prototype.slice.call(form.querySelectorAll('input[name=interests]:checked')).map(function (x) { return x.value; });
+    var body = {
+      action: 'poise-signup', name: val('name'), role: val('role'), sport: val('sport'), phone: phone, email: email,
+      interests: interests, note: val('note'), consent: true, website: val('website'),
+      source: (new URLSearchParams(location.search).get('from') || 'site').slice(0, 40)
+    };
+    btn.disabled = true; btn.textContent = '보내는 중…'; msg.textContent = ''; msg.className = 'msg';
+    fetch(EXEC_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.error || '신청을 저장하지 못했어요.');
+        document.getElementById('done-msg').textContent = res.message || '워크숍 일정과 Poise 소식을 가장 먼저 알려드릴게요.';
+        document.getElementById('form-wrap').hidden = true;
+        document.getElementById('done').hidden = false;
+      })
+      .catch(function (err) {
+        fail((err && err.message && !/fetch|network/i.test(err.message) ? err.message : '연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요.'));
+        btn.disabled = false; btn.textContent = '신청하기';
+      });
+  });
+})();
+</script>
+</body>
+</html>
