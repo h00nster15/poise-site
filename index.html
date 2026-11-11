@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://h00nster15.github.io/poise-site/og.png">
 <meta property="og:url" content="https://h00nster15.github.io/poise-site/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#3D6B5C">
+<meta name="theme-color" content="#1C2926">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,22 +22,24 @@
    benefits → research → library → try-it band → workshop sign-up → FAQ). Colours = the Poise app's
    Forest Calm palette plus its per-technique colours (poise/src/constants/theme.ts). */
 :root {
-  --bg: #F6F4EE;
-  --surface: #FFFFFF;
-  --fg: #1E2B27;
-  --muted: #56655F;
-  --line: #E2E2DA;
-  --accent: #3D6B5C;
-  --on-accent: #FFFFFF;
-  --hero: #3D6B5C;
-  --hero-fg: #F6F4EE;
-  --sun: #F6DCC8;
-  --breath: #A8CBB8;
-  --glow: #D6E7DC;
-  --sage: #D3E4DA;
-  --peach: #F6DCC8;
-  --sand: #F0E6CF;
-  --mist: #D8E4EA;
+  /* Dusk Forest (2026-11-11): the Instagram cards' look on every page — the dusk greens, light text,
+     and the breath-circle mint as the one accent. Same values as the app's default palette. */
+  --bg: #22332E;
+  --surface: #2E443D;
+  --fg: #F3F6F2;
+  --muted: #C2D0CA;
+  --line: #46605A;
+  --accent: #A6E8C3;
+  --on-accent: #1C2926;
+  --hero: #1C2926;
+  --hero-fg: #F3F6F2;
+  --sun: #3E5F53;
+  --breath: #A6E8C3;
+  --glow: #3E5F53;
+  --sage: #2F4A41;
+  --peach: #4A3A30;
+  --sand: #1C2926;
+  --mist: #2E414A;
   --dusk: #1C2926;
   --dusk-2: #2F4640;
   --dusk-fg: #F3F6F2;
@@ -45,18 +47,10 @@
   --k-routine: #3A6FC0;
   --k-imagery: #A2407F;
   --k-talk: #B4561C;
-  --danger: #B4383C;
+  --danger: #FF9A9D;
   --display: "Nanum Myeongjo", "Noto Serif KR", "AppleMyungjo", serif;
   --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121A18; --surface: #1B2522; --fg: #ECF1EE; --muted: #A3B3AC; --line: #2A3733;
-    --accent: #8FC2AC; --on-accent: #10201A; --hero: #24403A; --hero-fg: #ECF1EE; --sun: #4A3A30;
-    --breath: #4E7D6B; --glow: #22332E; --sage: #22332E; --peach: #3A2D26; --sand: #33302A; --mist: #24303A;
-    --dusk: #0D1412; --dusk-2: #1F2E2A; --danger: #F08A8D; color-scheme: dark;
-  }
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -78,7 +72,7 @@ section { padding-block: 88px; }
 .sub { color: var(--muted); font-size: 17px; margin-top: 12px; }
 
 /* announcement + header */
-.announce { display: block; background: var(--peach); color: #1E2B27; text-align: center; font-size: 14px; padding: 8px 16px; text-decoration: none; }
+.announce { display: block; background: var(--accent); color: var(--on-accent); text-align: center; font-size: 14px; padding: 8px 16px; text-decoration: none; }
 .announce b { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
 .top .wrap { display: flex; align-items: center; gap: 28px; padding-block: 14px; }
@@ -92,7 +86,7 @@ section { padding-block: 88px; }
 .top .btn { padding: 10px 18px; font-size: 14px; }
 
 /* hero */
-.hero { background: var(--hero); color: var(--hero-fg); position: relative; overflow: hidden; }
+.hero { background: linear-gradient(180deg, var(--dusk) 0%, var(--dusk-2) 100%); color: var(--hero-fg); position: relative; overflow: hidden; }
 .hero .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-block: 72px 0; }
 .hero .wrap > * { min-width: 0; }
 .hero .eyebrow { font-size: 14px; letter-spacing: .1em; color: var(--hero-fg); opacity: .85; font-weight: 500; }
@@ -101,7 +95,7 @@ section { padding-block: 88px; }
 .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; padding-bottom: 72px; }
 .hero .btn-line { color: var(--hero-fg); box-shadow: inset 0 0 0 1px var(--hero-fg); }
 .hero-art { position: relative; height: 100%; min-height: 520px; display: flex; align-items: flex-end; justify-content: center; }
-.hero-sun { position: absolute; width: 420px; max-width: 90%; aspect-ratio: 1; border-radius: 50%; background: var(--sun); opacity: .9; top: 40px; left: 50%; transform: translateX(-50%); }
+.hero-sun { position: absolute; width: 420px; max-width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(166,232,195,.32) 0%, rgba(166,232,195,.1) 45%, rgba(166,232,195,0) 70%); opacity: 1; top: 40px; left: 50%; transform: translateX(-50%); }
 .phone { position: relative; width: 270px; max-width: 70%; border-radius: 40px 40px 0 0; padding: 12px 12px 0; background: #111816; box-shadow: 0 30px 60px rgba(0,0,0,.25); }
 .phone img { border-radius: 30px 30px 0 0; aspect-ratio: 390 / 700; object-fit: cover; object-position: top; width: 100%; }
 .float { position: absolute; background: var(--surface); color: var(--fg); border-radius: 16px; padding: 10px 14px; font-size: 13px; box-shadow: 0 10px 24px rgba(0,0,0,.18); display: flex; align-items: center; gap: 10px; }
@@ -111,7 +105,7 @@ section { padding-block: 88px; }
 .float.b { right: 0; top: 330px; } .float.b i { background: var(--k-talk); }
 
 /* toolkit */
-.toolkit { background: var(--sand); }
+.toolkit { background: var(--dusk); }
 .tk { display: grid; grid-template-columns: 260px 300px 1fr; gap: 48px; align-items: center; }
 .tk > * { min-width: 0; }
 .tk-tabs { display: grid; gap: 6px; }
@@ -139,9 +133,9 @@ section { padding-block: 88px; }
 .stat { min-width: 0; background: var(--bg); border-radius: 24px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; }
 .stat .num { font-family: var(--display); font-weight: 800; font-size: 72px; line-height: 1; font-variant-numeric: tabular-nums; }
 .stat .num small { font-size: 28px; margin-left: 4px; }
-.stat:nth-child(1) .num { color: var(--k-breath); }
-.stat:nth-child(2) .num { color: var(--k-talk); }
-.stat:nth-child(3) .num { color: var(--k-routine); }
+.stat:nth-child(1) .num { color: #7FD9A8; }
+.stat:nth-child(2) .num { color: #F2A877; }
+.stat:nth-child(3) .num { color: #9DBDF2; }
 .stat p { font-size: 15.5px; }
 .stat cite { font-style: normal; font-size: 13px; color: var(--muted); margin-top: auto; }
 .stat cite a { text-underline-offset: 3px; }
@@ -162,20 +156,20 @@ section { padding-block: 88px; }
 .c-breath { background: var(--k-breath); } .c-routine { background: var(--k-routine); } .c-imagery { background: var(--k-imagery); } .c-talk { background: var(--k-talk); }
 
 /* try-it band */
-.band { background: var(--dusk); color: var(--dusk-fg); border-radius: 32px; padding: 56px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; overflow: hidden; position: relative; }
+.band { background: linear-gradient(180deg, var(--dusk) 0%, var(--dusk-2) 100%); border: 1px solid var(--line); color: var(--dusk-fg); border-radius: 32px; padding: 56px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; overflow: hidden; position: relative; }
 .band > * { min-width: 0; position: relative; z-index: 1; }
 .band h2 { font-size: clamp(30px, 4.4vw, 48px); }
 .band p { opacity: .85; margin-top: 14px; font-size: 17px; }
 .band .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .band .facts span { border: 1px solid rgba(243,246,242,.3); border-radius: 999px; padding: 6px 14px; font-size: 14px; }
 .band .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; padding-bottom: 56px; }
-.band .btn-primary { background: var(--dusk-fg); color: var(--dusk); }
+.band .btn-primary { background: var(--accent); color: var(--on-accent); }
 .band .ridge { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 90px; z-index: 0; }
 .breather { text-align: center; padding-bottom: 72px; }
 .stage { position: relative; width: 100%; max-width: 300px; aspect-ratio: 1; margin: 0 auto; display: grid; place-items: center; }
 .ring { position: absolute; inset: 0; border-radius: 50%; background: rgba(243,246,242,.06); }
 .ring.r2 { inset: 9%; background: rgba(243,246,242,.08); }
-.circle { width: 44%; aspect-ratio: 1; border-radius: 50%; background: #7F9D90; transition: width var(--dur, 1s) ease-in-out; }
+.circle { width: 44%; aspect-ratio: 1; border-radius: 50%; background: var(--breath); transition: width var(--dur, 1s) ease-in-out; }
 .cue { position: absolute; font-weight: 700; font-size: 22px; }
 .count { font-size: 13px; opacity: .8; min-height: 1.5em; margin-top: 12px; font-variant-numeric: tabular-nums; }
 .breather button { margin-top: 12px; }
@@ -273,7 +267,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="Poise 홈">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#3D6B5C"/><circle cx="32" cy="32" r="18" fill="#A8CBB8"/><circle cx="32" cy="32" r="8" fill="#F6F4EE"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#A6E8C3"/></svg>
       <b>Poise</b><span>포이즈</span>
     </a>
     <nav>
@@ -545,7 +539,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-
 <footer>
   <div class="wrap">
     <div>
-      <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true" style="width:28px;height:28px"><circle cx="32" cy="32" r="30" fill="#3D6B5C"/><circle cx="32" cy="32" r="18" fill="#A8CBB8"/><circle cx="32" cy="32" r="8" fill="#F6F4EE"/></svg><b style="color:var(--fg)">Poise</b><span>by Wellperion</span></a>
+      <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true" style="width:28px;height:28px"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#A6E8C3"/></svg><b style="color:var(--fg)">Poise</b><span>by Wellperion</span></a>
       <p style="margin-top:12px;max-width:26em">선수와 동호인을 위한 멘탈 트레이닝. 스쿼시 코트에서 시작했어요.</p>
     </div>
     <div>
