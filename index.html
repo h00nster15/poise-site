@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://h00nster15.github.io/poise-site/og.png">
 <meta property="og:url" content="https://h00nster15.github.io/poise-site/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1C2926">
+<meta name="theme-color" content="#080E20">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,26 +22,27 @@
    benefits → research → library → try-it band → workshop sign-up → FAQ). Colours = the Poise app's
    Forest Calm palette plus its per-technique colours (poise/src/constants/theme.ts). */
 :root {
-  /* Dusk Forest (2026-11-11): the Instagram cards' look on every page — the dusk greens, light text,
-     and the breath-circle mint as the one accent. Same values as the app's default palette. */
-  --bg: #22332E;
-  --surface: #2E443D;
+  /* Aurora (2026-11-12, 보랏빛 오로라): a navy night sky, green-to-violet light along the top of the
+     hero, cards like frosted glass and tiles tinted with the aurora's colours; mint is the one accent.
+     Same values as the app's default palette (poise/src/constants/theme.ts). */
+  --bg: #141F30;
+  --surface: #242E3E;
   --fg: #F3F6F2;
-  --muted: #C2D0CA;
-  --line: #46605A;
-  --accent: #A6E8C3;
-  --on-accent: #1C2926;
-  --hero: #1C2926;
+  --muted: #C3CDD6;
+  --line: #414A57;
+  --accent: #9FF2CF;
+  --on-accent: #0E1C1F;
+  --hero: #080E20;
   --hero-fg: #F3F6F2;
-  --sun: #3E5F53;
-  --breath: #A6E8C3;
-  --glow: #3E5F53;
-  --sage: #38564B;
-  --peach: #4A4252;
-  --sand: #444359;
-  --mist: #384D53;
-  --dusk: #1C2926;
-  --dusk-2: #2F4640;
+  --sun: #24364F;
+  --breath: #9FF2CF;
+  --glow: #24364F;
+  --sage: #1D4245;
+  --peach: #2F3459;
+  --sand: #322E4C;
+  --mist: #223A53;
+  --dusk: #080E20;
+  --dusk-2: #172540;
   --dusk-fg: #F3F6F2;
   --k-breath: #1E7A50;
   --k-routine: #3A6FC0;
@@ -86,7 +87,7 @@ section { padding-block: 88px; }
 .top .btn { padding: 10px 18px; font-size: 14px; }
 
 /* hero */
-.hero { background: linear-gradient(180deg, var(--dusk) 0%, var(--dusk-2) 100%); color: var(--hero-fg); position: relative; overflow: hidden; }
+.hero { background: linear-gradient(180deg, var(--dusk) 0%, #0F1830 55%, var(--dusk-2) 100%); color: var(--hero-fg); position: relative; overflow: hidden; }
 .hero .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-block: 72px 0; }
 .hero .wrap > * { min-width: 0; }
 .hero .eyebrow { font-size: 14px; letter-spacing: .1em; color: var(--hero-fg); opacity: .85; font-weight: 500; }
@@ -95,7 +96,7 @@ section { padding-block: 88px; }
 .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; padding-bottom: 72px; }
 .hero .btn-line { color: var(--hero-fg); box-shadow: inset 0 0 0 1px var(--hero-fg); }
 .hero-art { position: relative; height: 100%; min-height: 520px; display: flex; align-items: flex-end; justify-content: center; }
-.hero-sun { position: absolute; width: 420px; max-width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(166,232,195,.32) 0%, rgba(166,232,195,.1) 45%, rgba(166,232,195,0) 70%); opacity: 1; top: 40px; left: 50%; transform: translateX(-50%); }
+.hero-sun { position: absolute; width: 150%; left: -25%; top: -40px; height: 380px; border-radius: 50%; transform: rotate(-8deg); filter: blur(60px); opacity: .7; pointer-events: none; background: linear-gradient(90deg, rgba(70,224,166,0) 0%, #46E0A6 28%, #7C8CFF 60%, #D27FE0 82%, rgba(210,127,224,0) 100%); }
 .phone { position: relative; width: 270px; max-width: 70%; border-radius: 40px 40px 0 0; padding: 12px 12px 0; background: #111816; box-shadow: 0 30px 60px rgba(0,0,0,.25); }
 .phone img { border-radius: 30px 30px 0 0; aspect-ratio: 390 / 700; object-fit: cover; object-position: top; width: 100%; }
 .float { position: absolute; background: var(--surface); color: var(--fg); border-radius: 16px; padding: 10px 14px; font-size: 13px; box-shadow: 0 10px 24px rgba(0,0,0,.18); display: flex; align-items: center; gap: 10px; }
@@ -267,7 +268,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="Poise 홈">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#A6E8C3"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#9FF2CF"/></svg>
       <b>Poise</b><span>포이즈</span>
     </a>
     <nav>
@@ -539,7 +540,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-
 <footer>
   <div class="wrap">
     <div>
-      <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true" style="width:28px;height:28px"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#A6E8C3"/></svg><b style="color:var(--fg)">Poise</b><span>by Wellperion</span></a>
+      <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true" style="width:28px;height:28px"><circle cx="32" cy="32" r="27" fill="none" stroke="#F3F6F2" stroke-width="4"/><circle cx="32" cy="32" r="13" fill="#9FF2CF"/></svg><b style="color:var(--fg)">Poise</b><span>by Wellperion</span></a>
       <p style="margin-top:12px;max-width:26em">선수와 동호인을 위한 멘탈 트레이닝. 스쿼시 코트에서 시작했어요.</p>
     </div>
     <div>
